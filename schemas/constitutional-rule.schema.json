@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/SAMTHP/firma-spec/schemas/constitutional-rule.schema.json",
+  "title": "FIRMA Constitutional Rule",
+  "description": "A governance rule inscribed in FIRMA. Immutable once committed.",
+  "type": "object",
+  "required": ["rule_id", "rule_version", "rule_type", "priority", "trigger", "action", "created_by", "created_at"],
+  "properties": {
+    "rule_id": { "type": "string", "format": "uuid" },
+    "rule_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "rule_type": { "type": "string", "enum": ["ABSOLUTE", "CONDITIONAL", "TEMPORAL", "RECIPROCAL"] },
+    "priority": { "type": "integer", "minimum": 1, "maximum": 1000, "description": "Lower = higher priority." },
+    "trigger": {
+      "type": "object",
+      "required": ["type", "conditions"],
+      "properties": {
+        "type": { "type": "string", "enum": ["event", "threshold", "temporal", "cross_rule"] },
+        "conditions": { "type": "array", "items": { "type": "object" } }
+      }
+    },
+    "action": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": { "type": "string" },
+        "parameters": { "type": "object" }
+      }
+    },
+    "actor_scope": { "type": "array", "items": { "type": "string", "format": "uuid" } },
+    "coherence_score_min": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+    "created_by": { "type": "string", "format": "uuid" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "supersedes": { "type": ["string", "null"], "format": "uuid" }
+  },
+  "additionalProperties": false
+}

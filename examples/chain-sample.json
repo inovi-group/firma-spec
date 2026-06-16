@@ -1,0 +1,190 @@
+[
+  {
+    "firma_id": "433a4897-92a7-4e5d-8f22-ae70ec4b16fa",
+    "record_type": "CR",
+    "version": "2.0.0",
+    "actor_id": "375f49fe-65d1-425c-953a-473edafe0799",
+    "content": {
+      "rule_id": "2f76e812-8d47-4b83-a0f7-bd5cd0f4a60a",
+      "rule_version": "1.0.0",
+      "rule_type": "ABSOLUTE",
+      "priority": 1,
+      "trigger": {
+        "type": "event",
+        "conditions": [
+          {
+            "field": "record_hash",
+            "operator": "modified"
+          }
+        ]
+      },
+      "action": {
+        "type": "block_and_alert",
+        "parameters": {
+          "alert_class": "CONSTITUTIONAL_BREACH"
+        }
+      },
+      "description": "AR-003: Ledger immutability enforcement.",
+      "created_by": "375f49fe-65d1-425c-953a-473edafe0799",
+      "created_at": "2026-05-25T00:00:00Z",
+      "supersedes": null
+    },
+    "timestamp_utc": "2026-06-16T13:32:46Z",
+    "predecessor_hash": null,
+    "record_hash": "f406b4e484f26f4368e2e515c035cf4342b8db82d8b2cab335379cbd57264ff2ef1d1e607555f67eae5cc3d6570ec14401475019fff42c406dc10379aa8385b2",
+    "signature": "M5DcA5dPD0fMVJcyQ1NvDOguALFD9utquXWrHS5WB1zaSK0ZzvZ3qxsi/VRGCcYZj7QZY0/DAiLpfp8Xe136AA==",
+    "coherence_score": 1.0
+  },
+  {
+    "firma_id": "fe7ea1e2-208c-4ff0-aff5-f249b90c6c87",
+    "record_type": "DR",
+    "version": "2.0.0",
+    "actor_id": "375f49fe-65d1-425c-953a-473edafe0799",
+    "content": {
+      "decision_id": "0380585c-7124-4714-99ab-ddab402e763b",
+      "declared_intent": {
+        "action": "approve_deal",
+        "parameters": {
+          "deal_value": 50000,
+          "discount_percent": 5
+        }
+      },
+      "observed_reality": {
+        "action": "approve_deal",
+        "parameters": {
+          "deal_value": 50000,
+          "discount_percent": 28,
+          "payment_history": "on_time"
+        }
+      },
+      "contradiction_signals": {
+        "temporal": 0.29,
+        "behavioural": 0.36,
+        "quantitative": 0.82,
+        "semantic": 0.35
+      },
+      "contradiction_score": 0.459,
+      "confidence": 0.81,
+      "narrative": "Deal #1: discount divergence detected (5% declared vs 28% actual)."
+    },
+    "timestamp_utc": "2026-06-16T13:32:46Z",
+    "predecessor_hash": "f406b4e484f26f4368e2e515c035cf4342b8db82d8b2cab335379cbd57264ff2ef1d1e607555f67eae5cc3d6570ec14401475019fff42c406dc10379aa8385b2",
+    "record_hash": "6ee38a8d2c491f71151bf9e154136e92c6af0e14fe76b2b246d432600e05c60b28803bd60ea40ed6397c86af6c20581c0d492750796c79208ebada2305a8dfc1",
+    "signature": "hgNLQWDT/5dJU2AFqG3H0s/p0XDJfPhr3E4aZXpldfF3TwIjxwmEmjobJ/Ixf9F/j67Kg9cIm2l1RQ2WtjYwCA==",
+    "coherence_score": 0.541
+  },
+  {
+    "firma_id": "c6316f40-54df-49d8-bc61-2bac6ab34ecb",
+    "record_type": "DR",
+    "version": "2.0.0",
+    "actor_id": "375f49fe-65d1-425c-953a-473edafe0799",
+    "content": {
+      "decision_id": "b38a696c-1176-432a-8f8a-c3c4436c282a",
+      "declared_intent": {
+        "action": "approve_deal",
+        "parameters": {
+          "deal_value": 25000,
+          "discount_percent": 11
+        }
+      },
+      "observed_reality": {
+        "action": "approve_deal",
+        "parameters": {
+          "deal_value": 25000,
+          "discount_percent": 43,
+          "payment_history": "on_time"
+        }
+      },
+      "contradiction_signals": {
+        "temporal": 0.05,
+        "behavioural": 0.26,
+        "quantitative": 0.74,
+        "semantic": 0.01
+      },
+      "contradiction_score": 0.276,
+      "confidence": 0.84,
+      "narrative": "Deal #2: discount divergence detected (11% declared vs 43% actual)."
+    },
+    "timestamp_utc": "2026-06-16T13:32:46Z",
+    "predecessor_hash": "6ee38a8d2c491f71151bf9e154136e92c6af0e14fe76b2b246d432600e05c60b28803bd60ea40ed6397c86af6c20581c0d492750796c79208ebada2305a8dfc1",
+    "record_hash": "03caace5147700b5f389701b5c7f8d1316275fab36276c2956036593c5a6380f1da43d33c36e4329462c02b029a2200fee974023fce11e5b2a6bdd67f964dfa0",
+    "signature": "kMuYxwWb6IhccfItrxvFnsoKrwkVLkModbN9Sh7aLen5hTn+UxzgGy41WXeMfWxP0TSOhE5Mq6v2oe35XshsBQ==",
+    "coherence_score": 0.724
+  },
+  {
+    "firma_id": "09d37148-ceff-43a1-9c76-3bb4768d3898",
+    "record_type": "DR",
+    "version": "2.0.0",
+    "actor_id": "375f49fe-65d1-425c-953a-473edafe0799",
+    "content": {
+      "decision_id": "fea687e7-114d-4aac-9008-3b8818f68e42",
+      "declared_intent": {
+        "action": "approve_deal",
+        "parameters": {
+          "deal_value": 100000,
+          "discount_percent": 9
+        }
+      },
+      "observed_reality": {
+        "action": "approve_deal",
+        "parameters": {
+          "deal_value": 100000,
+          "discount_percent": 36,
+          "payment_history": "late_1x"
+        }
+      },
+      "contradiction_signals": {
+        "temporal": 0.08,
+        "behavioural": 0.31,
+        "quantitative": 0.75,
+        "semantic": 0.01
+      },
+      "contradiction_score": 0.299,
+      "confidence": 0.7,
+      "narrative": "Deal #3: discount divergence detected (9% declared vs 36% actual)."
+    },
+    "timestamp_utc": "2026-06-16T13:32:46Z",
+    "predecessor_hash": "03caace5147700b5f389701b5c7f8d1316275fab36276c2956036593c5a6380f1da43d33c36e4329462c02b029a2200fee974023fce11e5b2a6bdd67f964dfa0",
+    "record_hash": "9e89bfa744bdaf4446c7f8df2747a77d4492bacc9923aac053a1b7c157add51f66fbdb3c86e426f11fe2f741b11a44b1b5e02c35801bd1b65d421dfb7e038762",
+    "signature": "f/mdUk6LYFcvdASq+nvRANf4qnGNvqwoP2B+TjmKDdR5ul4+8Vu1R5zBUQk428XM6kwT/6oOpzwFndATAeW9BA==",
+    "coherence_score": 0.701
+  },
+  {
+    "firma_id": "6cb5241d-daf3-4a82-85b4-2cea7d9acd6a",
+    "record_type": "DR",
+    "version": "2.0.0",
+    "actor_id": "375f49fe-65d1-425c-953a-473edafe0799",
+    "content": {
+      "decision_id": "cdd6433d-4126-447b-8c13-c3ffc7d2a3b8",
+      "declared_intent": {
+        "action": "approve_deal",
+        "parameters": {
+          "deal_value": 25000,
+          "discount_percent": 6
+        }
+      },
+      "observed_reality": {
+        "action": "approve_deal",
+        "parameters": {
+          "deal_value": 25000,
+          "discount_percent": 35,
+          "payment_history": "late_3x"
+        }
+      },
+      "contradiction_signals": {
+        "temporal": 0.18,
+        "behavioural": 0.7,
+        "quantitative": 0.83,
+        "semantic": 0.11
+      },
+      "contradiction_score": 0.481,
+      "confidence": 0.74,
+      "narrative": "Deal #4: discount divergence detected (6% declared vs 35% actual)."
+    },
+    "timestamp_utc": "2026-06-16T13:32:46Z",
+    "predecessor_hash": "9e89bfa744bdaf4446c7f8df2747a77d4492bacc9923aac053a1b7c157add51f66fbdb3c86e426f11fe2f741b11a44b1b5e02c35801bd1b65d421dfb7e038762",
+    "record_hash": "87981ddf20ada8310501fbd0a47ad1b1ae69a19de0b373e3e8420977998742d8a64889b6d4ddb460b7286df37f35f5dbc4bac89443e856a9df965e72015831c0",
+    "signature": "qOZDUIEVjI3sAs6jkpdN3PZDESVp1s14IEqDM1lYnC1bOje3UB85ixf87GZy7PiuQU76VeUiBpFUR/TSnqEdAw==",
+    "coherence_score": 0.519
+  }
+]

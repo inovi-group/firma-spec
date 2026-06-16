@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIRMA — Trust Sensor Live Demo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0f1a;--surface:#111827;--surface2:#1a2332;--border:#2a3444;--text:#e5e7eb;--muted:#9ca3af;--accent:#3b82f6;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--font:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','Fira Code',monospace}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
+.container{max-width:1100px;margin:0 auto;padding:1.5rem}
+header{text-align:center;margin-bottom:2rem;padding:2rem 0 1.5rem;border-bottom:1px solid var(--border)}
+header h1{font-size:1.6rem;font-weight:600;letter-spacing:-0.02em}
+header h1 span{color:var(--accent)}
+header p{color:var(--muted);font-size:0.85rem;margin-top:0.4rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+@media(max-width:768px){.grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.2rem}
+.card h2{font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:1rem}
+.field{margin-bottom:0.9rem}
+.field label{display:flex;justify-content:space-between;font-size:0.78rem;color:var(--muted);margin-bottom:0.3rem}
+.field label span{color:var(--text);font-family:var(--mono);font-size:0.75rem}
+.field input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:6px}
+.field select{width:100%;padding:0.4rem;background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem}
+.score-row{display:flex;gap:0.6rem;margin-bottom:0.6rem}
+.score-box{flex:1;background:var(--surface2);border-radius:6px;padding:0.7rem;text-align:center}
+.score-box .val{font-size:1.4rem;font-weight:700;font-family:var(--mono)}
+.score-box .lbl{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:0.15rem}
+.risk-badge{display:inline-block;padding:0.35rem 1rem;border-radius:20px;font-size:0.8rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase}
+.risk-HIGH{background:rgba(239,68,68,0.15);color:var(--red);border:1px solid rgba(239,68,68,0.3)}
+.risk-MEDIUM{background:rgba(245,158,11,0.15);color:var(--yellow);border:1px solid rgba(245,158,11,0.3)}
+.risk-LOW{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3)}
+.meter{height:6px;background:var(--surface2);border-radius:3px;margin-top:0.4rem;overflow:hidden}
+.meter .fill{height:100%;border-radius:3px;transition:width 0.3s ease}
+.narrative{font-size:0.8rem;color:var(--muted);padding:0.6rem 0.8rem;background:var(--surface2);border-radius:4px;border-left:3px solid var(--accent);margin-top:0.6rem}
+.firma-trace{font-family:var(--mono);font-size:0.65rem;color:var(--green);background:#0d1117;border:1px solid #1a2332;border-radius:6px;padding:0.8rem;overflow-x:auto;max-height:260px;overflow-y:auto;white-space:pre;line-height:1.6}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem}
+@media(max-width:768px){.metrics-grid{grid-template-columns:repeat(2,1fr)}}
+.metric{background:var(--surface2);border-radius:6px;padding:0.6rem;text-align:center}
+.metric .mv{font-size:1.1rem;font-weight:700;font-family:var(--mono)}
+.metric .ml{font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:0.1rem}
+.section-full{grid-column:1/-1}
+.bar-chart{display:flex;align-items:flex-end;gap:3px;height:60px;margin-top:0.5rem}
+.bar-chart .bar{flex:1;border-radius:2px 2px 0 0;min-width:4px;position:relative;transition:height 0.3s}
+.bar-chart .bar:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);font-size:0.6rem;background:var(--text);color:var(--bg);padding:2px 5px;border-radius:3px;white-space:nowrap}
+footer{text-align:center;padding:1.5rem 0;color:var(--muted);font-size:0.7rem;border-top:1px solid var(--border);margin-top:2rem}
+footer a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1><span>FIRMA</span> — Trust Sensor Live Demo</h1>
+<p>Coherence telemetry for multi-agent trust infrastructure · INOVI Group Ltd</p>
+</header>
+
+<div class="grid">
+
+<!-- LEFT: Deal Parameters -->
+<div class="card">
+<h2>Deal Parameters</h2>
+<div class="field">
+<label>Pipeline Stage <span id="v_stage"></span></label>
+<select id="stage" onchange="run()">
+<option value="Prospecting">Prospecting</option>
+<option value="Qualification">Qualification</option>
+<option value="Proposal">Proposal</option>
+<option value="Negotiation" selected>Negotiation</option>
+<option value="Closing">Closing</option>
+</select>
+</div>
+<div class="field">
+<label>Deal Value <span id="v_deal_value"></span></label>
+<input type="range" id="deal_value" min="5000" max="500000" step="5000" value="50000" oninput="run()">
+</div>
+<div class="field">
+<label>Discount % <span id="v_discount"></span></label>
+<input type="range" id="discount" min="0" max="60" value="10" oninput="run()">
+</div>
+<div class="field">
+<label>Days in Stage <span id="v_days"></span></label>
+<input type="range" id="days" min="1" max="120" value="12" oninput="run()">
+</div>
+<div class="field">
+<label>Sales Cycle (days) <span id="v_cycle"></span></label>
+<input type="range" id="cycle" min="10" max="200" value="45" oninput="run()">
+</div>
+<div class="field">
+<label>Champion Strength <span id="v_champion"></span></label>
+<input type="range" id="champion" min="1" max="10" value="7" oninput="run()">
+</div>
+<div class="field">
+<label>NPS <span id="v_nps"></span></label>
+<input type="range" id="nps" min="-30" max="100" value="55" oninput="run()">
+</div>
+<div class="field">
+<label>Stakeholder Count <span id="v_stakeholders"></span></label>
+<input type="range" id="stakeholders" min="1" max="8" value="3" oninput="run()">
+</div>
+<div class="field">
+<label>Usage Growth % <span id="v_growth"></span></label>
+<input type="range" id="growth" min="-30" max="50" value="10" oninput="run()">
+</div>
+<div class="field">
+<label>Churn Rate (segment) <span id="v_churn"></span></label>
+<input type="range" id="churn" min="1" max="50" value="10" oninput="run()">
+</div>
+</div>
+
+<!-- RIGHT: Results -->
+<div>
+<div class="card" style="margin-bottom:1.2rem">
+<h2>LCT Analysis</h2>
+<div class="score-row">
+<div class="score-box"><div class="val" id="lct_a" style="color:var(--green)">—</div><div class="lbl">Alignment</div></div>
+<div class="score-box"><div class="val" id="lct_c" style="color:var(--accent)">—</div><div class="lbl">Capability</div></div>
+<div class="score-box"><div class="val" id="lct_t" style="color:var(--purple)">—</div><div class="lbl">Timeline</div></div>
+</div>
+<div class="score-row">
+<div class="score-box"><div class="val" id="intuition_v" style="color:var(--yellow)">—</div><div class="lbl">Intuition (estimated)</div></div>
+<div class="score-box"><div class="val" id="reality_v" style="color:var(--red)">—</div><div class="lbl">Reality Score (risk)</div></div>
+</div>
+<div style="display:flex;align-items:center;gap:1rem;margin-top:0.8rem">
+<div>
+<div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em">Contradiction</div>
+<div id="contradiction_v" style="font-size:1.8rem;font-weight:800;font-family:var(--mono)">—</div>
+</div>
+<div style="flex:1">
+<div class="meter"><div class="fill" id="contradiction_bar" style="width:0%;background:var(--green)"></div></div>
+</div>
+<div id="risk_badge" class="risk-badge risk-LOW">—</div>
+</div>
+<div class="narrative" id="narrative">Adjust deal parameters to see analysis.</div>
+</div>
+
+<div class="card">
+<h2>FIRMA Trace (live)</h2>
+<div class="firma-trace" id="firma_trace">Waiting for analysis...</div>
+</div>
+</div>
+
+<!-- FULL WIDTH: Metrics -->
+<div class="card section-full">
+<h2>Validated Evaluation Metrics (100-deal benchmark)</h2>
+<div class="metrics-grid">
+<div class="metric"><div class="mv" style="color:var(--accent)">72%</div><div class="ml">Precision</div></div>
+<div class="metric"><div class="mv" style="color:var(--green)">93%</div><div class="ml">Recall</div></div>
+<div class="metric"><div class="mv" style="color:var(--purple)">82%</div><div class="ml">F1 Score</div></div>
+<div class="metric"><div class="mv" style="color:var(--yellow)">0.58</div><div class="ml">Cohen's κ</div></div>
+</div>
+<p style="font-size:0.7rem;color:var(--muted);margin-top:0.6rem;text-align:center">
+Measured on synthetic benchmark · MEDIUM+ detection threshold · Full methodology: <a href="https://github.com/SAMTHP/firma-spec" style="color:var(--accent)">github.com/SAMTHP/firma-spec</a>
+</p>
+</div>
+</div>
+
+<footer>
+<p>FIRMA v2.0 · MIT License · <a href="https://github.com/SAMTHP/firma-spec">Source</a> · INOVI Group Ltd — London, UK</p>
+<p style="margin-top:0.3rem;font-style:italic">"What is written in FIRMA endures."</p>
+</footer>
+</div>
+
+<script>
+// ═══ Contradiction Engine (JavaScript port) ═══
+
+const CONTRADICTION_HIGH = 0.10;
+const CONTRADICTION_MED = 0.09;
+const REALITY_HIGH = 5.0;
+const REALITY_MED = 4.0;
+
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+function scoreAlignment(d) {
+  let s = 5;
+  s += d.stakeholders >= 4 ? 1.5 : d.stakeholders >= 2 ? 0.5 : -1.5;
+  s += (d.champion - 5) * 0.4;
+  s += d.nps >= 70 ? 1 : d.nps >= 40 ? 0.3 : d.nps >= 20 ? -0.5 : -1.5;
+  const aw = (d.win_rate_rep + d.win_rate_seg) / 2;
+  s += aw >= 0.5 ? 0.8 : aw >= 0.3 ? 0 : -1;
+  return clamp(+s.toFixed(2), 0, 10);
+}
+
+function scoreCapability(d) {
+  let s = 5;
+  s += d.growth > 20 ? 1.5 : d.growth > 5 ? 0.5 : d.growth > -5 ? -0.3 : d.growth > -15 ? -1 : -2;
+  s += d.concentration > 0.7 ? -1 : d.concentration > 0.5 ? -0.3 : 0.5;
+  s += d.churn < 0.08 ? 1 : d.churn < 0.15 ? 0.3 : d.churn < 0.25 ? -0.5 : -1.5;
+  s += d.promo_risk >= 7 ? -1.5 : d.promo_risk >= 5 ? -0.5 : 0.3;
+  return clamp(+s.toFixed(2), 0, 10);
+}
+
+function scoreTimeline(d) {
+  let s = 5;
+  s += d.days <= 7 ? 1.5 : d.days <= 15 ? 0.5 : d.days <= 30 ? -0.5 : d.days <= 60 ? -1.5 : -2.5;
+  s += d.cycle <= 30 ? 1 : d.cycle <= 60 ? 0.3 : d.cycle <= 90 ? -0.3 : d.cycle <= 120 ? -1 : -1.5;
+  const sn = {Prospecting:1,Qualification:2,Proposal:3,Negotiation:4,Closing:5}[d.stage]||2;
+  if (sn >= 4 && d.cycle > 90) s -= 1;
+  if (sn >= 4 && d.days > 30) s -= 1;
+  if (d.discount > 30) s -= 1;
+  else if (d.discount > 20) s -= 0.3;
+  return clamp(+s.toFixed(2), 0, 10);
+}
+
+function estimateIntuition(d) {
+  const base = {Prospecting:3,Qualification:4.5,Proposal:6,Negotiation:7.5,Closing:8.5}[d.stage]||5;
+  let s = base;
+  if (d.deal_value >= 100000) s += 0.5;
+  if (d.deal_value >= 200000) s += 0.3;
+  s += (d.champion - 5) * 0.25;
+  if (d.stakeholders >= 3) s += 0.4;
+  return clamp(+s.toFixed(2), 0, 10);
+}
+
+function computeReality(d, a, c, t) {
+  const health = 0.4 * a + 0.35 * c + 0.25 * t;
+  let risk = 10 - health;
+  if (d.discount > 35) risk += 1;
+  else if (d.discount > 25) risk += 0.5;
+  if (d.nps < 0) risk += 0.8;
+  else if (d.nps < 20) risk += 0.3;
+  return clamp(+risk.toFixed(2), 0, 10);
+}
+
+function analyze(d) {
+  const a = scoreAlignment(d), c = scoreCapability(d), t = scoreTimeline(d);
+  const intuition = estimateIntuition(d);
+  const reality = computeReality(d, a, c, t);
+  const gap = Math.abs(reality - (10 - intuition));
+
+  const sn = ({Prospecting:1,Qualification:2,Proposal:3,Negotiation:4,Closing:5})[d.stage]||2;
+  const temporal = Math.max(0, (sn/5) - (t/10));
+  const behavioural = Math.max(0, (intuition/10) - (a/10));
+  const quantitative = d.discount > 15 ? Math.max(0, d.discount/100 - (1 - d.champion/10)) : 0;
+  const semantic = Math.max(0, (intuition - (10 - reality)) / 10);
+  const contradiction = Math.min(1, +(0.20*temporal + 0.30*behavioural + 0.25*quantitative + 0.25*semantic).toFixed(4));
+
+  let highSig = 0;
+  if (contradiction >= CONTRADICTION_HIGH) highSig++;
+  if (reality >= REALITY_HIGH) highSig++;
+  if (gap >= 3) highSig++;
+  if (d.discount > 35 && d.champion < 4) highSig++;
+  if (d.days > 50 && d.nps < 20) highSig++;
+
+  let risk;
+  if (highSig >= 2) risk = 'HIGH';
+  else if (highSig >= 1 || contradiction >= CONTRADICTION_MED || reality >= REALITY_MED) risk = 'MEDIUM';
+  else risk = 'LOW';
+
+  const reasons = [];
+  if (quantitative > 0.1) reasons.push(`discount divergence (${d.discount}%)`);
+  if (temporal > 0.15) reasons.push(`stale in ${d.stage} (${d.days}d)`);
+  if (behavioural > 0.15) reasons.push('engagement gap');
+  if (semantic > 0.1) reasons.push('optimism-reality mismatch');
+  if (d.nps < 15) reasons.push(`low NPS (${d.nps})`);
+  if (d.growth < -10) reasons.push('declining usage');
+  if (d.champion < 3) reasons.push('weak champion');
+
+  let narrative = reasons.length ? 'Risk: ' + reasons.slice(0,3).join(', ') + '.'
+    : risk === 'MEDIUM' ? 'Minor signals detected — monitor.'
+    : 'No significant risk signals.';
+
+  return { risk, contradiction, reality, intuition, gap: +gap.toFixed(2), a, c, t, narrative, signals:{temporal,behavioural,quantitative,semantic} };
+}
+
+// ═══ SHA-256 (Web Crypto) ═══
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+// ═══ UI ═══
+function getDeal() {
+  return {
+    stage: document.getElementById('stage').value,
+    deal_value: +document.getElementById('deal_value').value,
+    discount: +document.getElementById('discount').value,
+    days: +document.getElementById('days').value,
+    cycle: +document.getElementById('cycle').value,
+    champion: +document.getElementById('champion').value,
+    nps: +document.getElementById('nps').value,
+    stakeholders: +document.getElementById('stakeholders').value,
+    growth: +document.getElementById('growth').value,
+    churn: +document.getElementById('churn').value / 100,
+    win_rate_rep: 0.42, win_rate_seg: 0.38,
+    concentration: 0.45, promo_risk: 3,
+  };
+}
+
+function updateLabels(d) {
+  document.getElementById('v_deal_value').textContent = '€' + d.deal_value.toLocaleString();
+  document.getElementById('v_discount').textContent = d.discount + '%';
+  document.getElementById('v_days').textContent = d.days + 'd';
+  document.getElementById('v_cycle').textContent = d.cycle + 'd';
+  document.getElementById('v_champion').textContent = d.champion + '/10';
+  document.getElementById('v_nps').textContent = d.nps;
+  document.getElementById('v_stakeholders').textContent = d.stakeholders;
+  document.getElementById('v_growth').textContent = d.growth + '%';
+  document.getElementById('v_churn').textContent = (d.churn * 100).toFixed(0) + '%';
+}
+
+let traceCount = 0;
+
+async function run() {
+  const d = getDeal();
+  updateLabels(d);
+  const r = analyze(d);
+
+  document.getElementById('lct_a').textContent = r.a.toFixed(1);
+  document.getElementById('lct_c').textContent = r.c.toFixed(1);
+  document.getElementById('lct_t').textContent = r.t.toFixed(1);
+  document.getElementById('intuition_v').textContent = r.intuition.toFixed(1);
+  document.getElementById('reality_v').textContent = r.reality.toFixed(1);
+  document.getElementById('contradiction_v').textContent = (r.contradiction * 100).toFixed(1) + '%';
+
+  const bar = document.getElementById('contradiction_bar');
+  const pct = r.contradiction * 100;
+  bar.style.width = Math.min(100, pct * 3) + '%';
+  bar.style.background = pct > 15 ? 'var(--red)' : pct > 8 ? 'var(--yellow)' : 'var(--green)';
+
+  const badge = document.getElementById('risk_badge');
+  badge.textContent = r.risk;
+  badge.className = 'risk-badge risk-' + r.risk;
+
+  document.getElementById('narrative').textContent = r.narrative;
+
+  // Generate FIRMA trace
+  traceCount++;
+  const ts = new Date().toISOString();
+  const content = JSON.stringify({
+    decision_id: crypto.randomUUID(),
+    declared_intent: { action:'evaluate_deal', parameters:{ deal_value:d.deal_value, discount:d.discount }},
+    observed_reality: { action:'evaluate_deal', parameters:{ reality_score:r.reality, champion:d.champion, nps:d.nps }},
+    contradiction_score: r.contradiction,
+    signals: r.signals,
+  });
+  const hash = await sha256(content + ts + traceCount);
+
+  const trace = `{
+  "firma_id": "${crypto.randomUUID()}",
+  "record_type": "DR",
+  "version": "2.0.0",
+  "actor_id": "demo-user",
+  "content": {
+    "contradiction_score": ${r.contradiction.toFixed(4)},
+    "risk_level": "${r.risk}",
+    "lct": { "A": ${r.a}, "C": ${r.c}, "T": ${r.t} },
+    "signals": {
+      "temporal": ${r.signals.temporal.toFixed(3)},
+      "behavioural": ${r.signals.behavioural.toFixed(3)},
+      "quantitative": ${r.signals.quantitative.toFixed(3)},
+      "semantic": ${r.signals.semantic.toFixed(3)}
+    }
+  },
+  "coherence_score": ${(1 - r.contradiction).toFixed(4)},
+  "timestamp_utc": "${ts}",
+  "record_hash": "${hash}",
+  "signature": "[ed25519-demo]"
+}`;
+  document.getElementById('firma_trace').textContent = trace;
+}
+
+run();
+</script>
+</body>
+</html>

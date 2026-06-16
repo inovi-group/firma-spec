@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/SAMTHP/firma-spec/schemas/firma-record.schema.json",
+  "title": "FIRMA Record",
+  "description": "A single record in a FIRMA append-only ledger chain.",
+  "type": "object",
+  "required": [
+    "firma_id",
+    "record_type",
+    "version",
+    "actor_id",
+    "content",
+    "timestamp_utc",
+    "predecessor_hash",
+    "record_hash",
+    "signature"
+  ],
+  "properties": {
+    "firma_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this record."
+    },
+    "record_type": {
+      "type": "string",
+      "enum": ["DR", "ER", "AR", "KR", "CPR", "CR", "AUD", "RR"],
+      "description": "Record type code."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "FIRMA spec version (SemVer)."
+    },
+    "actor_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The agent or human producing this record."
+    },
+    "counterpart_id": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "The other party in the interaction, if applicable."
+    },
+    "content": {
+      "type": "object",
+      "description": "Record-type-specific payload."
+    },
+    "coherence_score": {
+      "type": ["number", "null"],
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Coherence between declared intent and observed behaviour."
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp of record creation (ISO 8601)."
+    },
+    "predecessor_hash": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{128}$",
+      "description": "SHA3-512 hash of the preceding record. Null for genesis."
+    },
+    "record_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{128}$",
+      "description": "SHA3-512 hash of this record."
+    },
+    "signature": {
+      "type": "string",
+      "description": "Ed25519 signature over record_hash (base64-encoded)."
+    },
+    "anchor_ref": {
+      "type": ["string", "null"],
+      "description": "RFC 3161 timestamp authority reference."
+    }
+  },
+  "additionalProperties": false
+}
