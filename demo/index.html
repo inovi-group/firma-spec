@@ -110,11 +110,11 @@ footer a{color:var(--accent);text-decoration:none}
 <!-- RIGHT: Results -->
 <div>
 <div class="card" style="margin-bottom:1.2rem">
-<h2>LCT Analysis</h2>
+<h2>ACT Analysis</h2>
 <div class="score-row">
-<div class="score-box"><div class="val" id="lct_a" style="color:var(--green)">—</div><div class="lbl">Alignment</div></div>
-<div class="score-box"><div class="val" id="lct_c" style="color:var(--accent)">—</div><div class="lbl">Capability</div></div>
-<div class="score-box"><div class="val" id="lct_t" style="color:var(--purple)">—</div><div class="lbl">Timeline</div></div>
+<div class="score-box"><div class="val" id="act_a" style="color:var(--green)">—</div><div class="lbl">Alignment</div></div>
+<div class="score-box"><div class="val" id="act_c" style="color:var(--accent)">—</div><div class="lbl">Capability</div></div>
+<div class="score-box"><div class="val" id="act_t" style="color:var(--purple)">—</div><div class="lbl">Timeline</div></div>
 </div>
 <div class="score-row">
 <div class="score-box"><div class="val" id="intuition_v" style="color:var(--yellow)">—</div><div class="lbl">Intuition (estimated)</div></div>
@@ -305,9 +305,9 @@ async function run() {
   updateLabels(d);
   const r = analyze(d);
 
-  document.getElementById('lct_a').textContent = r.a.toFixed(1);
-  document.getElementById('lct_c').textContent = r.c.toFixed(1);
-  document.getElementById('lct_t').textContent = r.t.toFixed(1);
+  document.getElementById('act_a').textContent = r.a.toFixed(1);
+  document.getElementById('act_c').textContent = r.c.toFixed(1);
+  document.getElementById('act_t').textContent = r.t.toFixed(1);
   document.getElementById('intuition_v').textContent = r.intuition.toFixed(1);
   document.getElementById('reality_v').textContent = r.reality.toFixed(1);
   document.getElementById('contradiction_v').textContent = (r.contradiction * 100).toFixed(1) + '%';
@@ -343,7 +343,7 @@ async function run() {
   "content": {
     "contradiction_score": ${r.contradiction.toFixed(4)},
     "risk_level": "${r.risk}",
-    "lct": { "A": ${r.a}, "C": ${r.c}, "T": ${r.t} },
+    "act": { "A": ${r.a}, "C": ${r.c}, "T": ${r.t} },
     "signals": {
       "temporal": ${r.signals.temporal.toFixed(3)},
       "behavioural": ${r.signals.behavioural.toFixed(3)},

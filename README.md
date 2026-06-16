@@ -31,7 +31,7 @@ An interactive demo of the Trust Sensor is available at:
 
 **[https://SAMTHP.github.io/firma-spec/demo/](https://SAMTHP.github.io/firma-spec/demo/)**
 
-The demo runs entirely client-side (no server required). Adjust deal parameters and see real-time contradiction scoring, LCT analysis, and FIRMA trace generation. You can also open `demo/index.html` locally in any browser.
+The demo runs entirely client-side (no server required). Adjust deal parameters and see real-time contradiction scoring, ACT analysis, and FIRMA trace generation. You can also open `demo/index.html` locally in any browser.
 
 ## Specification
 
