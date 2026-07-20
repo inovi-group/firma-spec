@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/SAMTHP/firma-spec/schemas/firma-record.schema.json",
+  "$id": "https://github.com/inovi-group/firma-spec/schemas/firma-record.schema.json",
   "title": "FIRMA Record",
   "description": "A single record in a FIRMA append-only ledger chain.",
   "type": "object",

@@ -29,7 +29,7 @@ FIRMA defines a minimal, auditable record format for agent decisions:
 
 An interactive demo of the Trust Sensor is available at:
 
-**[https://SAMTHP.github.io/firma-spec/demo/](https://SAMTHP.github.io/firma-spec/demo/)**
+**[https://inovi-group.github.io/firma-spec/demo/](https://inovi-group.github.io/firma-spec/demo/)**
 
 The demo runs entirely client-side (no server required). Adjust deal parameters and see real-time contradiction scoring, ACT analysis, and FIRMA trace generation. You can also open `demo/index.html` locally in any browser.
 
@@ -98,23 +98,25 @@ FIRMA is designed as open-source coordination infrastructure for the [ARIA Scali
 |---|---|
 | Secure agent coordination | Cryptographic audit trail for every agent interaction |
 | Verifiable trust | Hash-chained records with Ed25519 signatures |
-| Open-source tooling | MIT-licensed spec + reference implementation |
+| Open-source tooling | GPL-3.0-licensed spec + reference implementation |
 | Adversarial resilience | Contradiction detection surfaces intent-behaviour divergence |
 
 FIRMA does not replace authentication or encryption. It operates at a higher level: *given that agents can already identify and communicate securely, are they doing what they said they would?*
 
 ## Project status
 
-FIRMA is developed by [INOVI Group Ltd](https://github.com/SAMTHP) (London, UK) as the governance ledger of the IDA 2.0 (Intelligent Decision Architecture) ecosystem.
+FIRMA is developed by [INOVI Group Ltd](https://github.com/inovi-group) (London, UK) as the governance ledger of the IDA 2.0 (Intelligent Decision Architecture) ecosystem.
 
 - **Spec**: v2.0 (stable)
 - **Reference implementation**: Python (functional)
 - **Production deployment**: Active — contradiction detection on commercial CRM data
-- **Open-source**: This repository (MIT)
+- **Open-source**: This repository (GPL-3.0)
 
 ## License
 
-[MIT](./LICENSE)
+[GNU GPL v3](./LICENSE)
+
+Copyright (c) 2026 INOVI Group Ltd. This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. Any derivative work must be released under the same license.
 
 ## Contributing
 

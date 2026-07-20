@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/SAMTHP/firma-spec/schemas/dcp.schema.json",
+  "$id": "https://github.com/inovi-group/firma-spec/schemas/dcp.schema.json",
   "title": "FIRMA Decision Context Packet",
   "description": "Structured data packet carrying decision context to a FIRMA ledger.",
   "type": "object",
