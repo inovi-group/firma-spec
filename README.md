@@ -125,6 +125,6 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md). We welcome implementations in other la
 ## Contact
 
 INOVI Group Ltd — London, UK
-[contact.inovigroup@gmail.com](mailto:contact.inovigroup@gmail.com)
+[contact.inovigroup@gmail.com](mailto:contact@inovigroup.co.uk)
 
 *"What is written in FIRMA endures. No hand may erase it."*
